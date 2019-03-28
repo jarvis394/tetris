@@ -1,0 +1,15 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Tetris on JS",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "start": "node server.js"
+  },
+  "author": "jarvis394",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
