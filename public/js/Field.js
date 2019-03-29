@@ -1,20 +1,34 @@
+/**
+ * Field object. Contains all blocks on itself
+ * @param {Number} w Width of the field
+ * @param {Number} h Height of the field
+ */
 class Field {
   constructor(w, h) {
     this.width = w
     this.height = h
 
-    this.blocks = Array(floor(WIDTH / BLOCK_SIZE)).fill(Array(floor(HEIGHT / BLOCK_SIZE)).fill(0))
+    this.blocks = []
+    for (let i = 0; i < HEIGHT; i++) {
+      this.blocks.push([])
+      for (let j = 0; j < WIDTH; j++) {
+        this.blocks[i].push(0)
+      }
+    }
   }
 
+  /**
+   * Draws field base on canvas
+   */
   draw() {
     fill(32)
-    strokeWeight(4)
+    strokeWeight(2)
     stroke(255)
 
-    rect(0, 0, this.width, this.height)
+    rect(0, 0, this.width * BLOCK_SIZE, this.height * BLOCK_SIZE)
 
-    for (let i = 0; i < WIDTH /BLOCK_SIZE; i++) {
-      for (let j = 0; j < HEIGHT /BLOCK_SIZE; j++) {
+    for (let i = 0; i < this.width; i++) {
+      for (let j = 0; j < this.height; j++) {
         stroke(28)
         noFill()
         square(i * BLOCK_SIZE, j * BLOCK_SIZE, BLOCK_SIZE)
@@ -22,13 +36,30 @@ class Field {
     }
   }
 
+  /**
+   * Draws all blocks in field on canvas
+   */
   drawBlocks() {
-    for (let i in this.blocks) 
-      for (let j in this.blocks[i]) 
-        this.blocks[i][j].draw()
+    for (let i = 0; i < this.blocks.length; i++) {
+      for (let j = 0; j < this.blocks[i].length; j++) {
+        if (this.blocks[i][j] !== 0) {
+          fill(`hsl(${this.blocks[i][j]}, 100%, 50%)`)
+          stroke(`hsl(${this.blocks[i][j]}, 80%, 50%)`)
+
+          square(j * BLOCK_SIZE, i * BLOCK_SIZE, BLOCK_SIZE)
+        }
+      }
+    }
   }
 
-  addBlock() {
-    this.blocks[floor(random(this.blocks.length))][floor(random(this.blocks[0].length))] = new Block
+  /**
+   * Adds new random block on canvas
+   * @returns {Block}
+   */
+  newBlock() {
+    let rnd = floor(random(figures.length))
+    let rot = floor(random(figures[rnd].shape.length))
+    
+    return new Block(rnd, rot)
   }
 }
